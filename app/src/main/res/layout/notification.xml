@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="112dp">
+
+    <ImageView
+        android:id="@+id/icon_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_chat_notify"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
+
+
+    <TextView
+        android:layout_below="@+id/button"
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:paddingTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="your information is upgrated"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pressed for notified"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="8dp"
+
+        />
+</RelativeLayout>

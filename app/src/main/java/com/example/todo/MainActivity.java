@@ -3,6 +3,7 @@ package com.example.todo;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     public static EditText topshiriq;
     DataBase db;
     List<Topshiriqlar> topshiriqlarList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             @Override
             public void onClick(View v) {
                 String top = topshiriq.getText().toString();
+
                 if (top.equals("")){
 
                 }else {
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 Topshiriqlar topshiriqlar = new Topshiriqlar(String.valueOf(javob),top);
                 topshiriqlarList.add(topshiriqlar);
                 listView.setAdapter(new CustomAdapter(topshiriqlarList,MainActivity.this));
+
+
             }
             }
         });
@@ -79,7 +84,9 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         int id =v.getId();
         if (id == R.id.button1){
             Intent intent = new Intent(MainActivity.this,CustomAdapter.class);
+
             startActivity(intent);
+
         }
         else {
 
