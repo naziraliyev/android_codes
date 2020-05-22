@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener{
+      NotificationManager manager;
+      Notification newNotification;
 
     ListView listView;
     Button Addone;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         Addone = findViewById(R.id.button1);
         topshiriq = findViewById(R.id.edtText);
@@ -92,5 +97,25 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         }
 
+    }
+
+    public void Notify(String notificationTitle, String NotificationMessage) {
+        Intent intent = new Intent("com.xxxx.app.MainActivity");
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this,1,intent,0);
+        Notification.Builder builder = new Notification.Builder(MainActivity.this);
+
+        builder.setAutoCancel(false);
+        builder.setTicker("this is tcker text");
+        builder.setContentTitle("Notification");
+        builder.setContentText("new message");
+        builder.setSmallIcon(R.drawable.ic_chat_notify);
+        builder.setContentIntent(pendingIntent);
+        builder.setOngoing(true);
+        builder.setSubText("you have new information");
+        builder.setNumber(100);
+        builder.build();
+        newNotification = builder.getNotification();
+        manager.notify(11, newNotification);
+        
     }
 }
