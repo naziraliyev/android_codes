@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.todo">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <dist:module dist:instant="true" />
 
     <application
         android:allowBackup="true"
@@ -20,12 +21,14 @@
             </intent-filter>
         </activity>
         <receiver android:name="Button_listener">
+
             <intent-filter>
                 <action android:name="button_clicked"/>
             </intent-filter>
-
         </receiver>
 
+
+        <service android:name=".norification" />
     </application>
 
 </manifest>

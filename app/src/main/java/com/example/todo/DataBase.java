@@ -3,19 +3,17 @@ package com.example.todo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 
 public class DataBase extends SQLiteOpenHelper {
     Context context;
-    private Object topshiriq;
+    private Object task;
 
     public DataBase(Context context) {
-        super(context, "TODO_topshiriq", null,1);
+        super(context, "TODO_task", null,1);
         this.context = context;
     }
 
@@ -23,35 +21,35 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DataBase) {
-    DataBase.execSQL("CREATE TABLE jadval(id INTEGER PRIMARY KEY AUTOINCREMENT, topshiriqlar VARCHAR)");
+    DataBase.execSQL("CREATE TABLE Table_Todo(id INTEGER PRIMARY KEY AUTOINCREMENT, Todo_task VARCHAR)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public long jadvalgaYozish(String topshiriq) {
+    public long WriteTable(String taskWrite) {
         ContentValues natija = new ContentValues();
-        natija.put("topshiriqlar",  topshiriq);
-        SQLiteDatabase baza = getWritableDatabase();
-        long nat = baza.insert( "jadval", null, natija);
+        natija.put("Todo_task",  taskWrite);
+        SQLiteDatabase Data = getWritableDatabase();
+        long nat = Data.insert( "Table_Todo", null, natija);
         return nat;
     }
-    public Cursor oqishjadval(){
+    public Cursor ReadTable(){
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM jadval",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM Table",null);
         return cursor;
     }
-    public boolean ochirishjadval(String id){
+    public boolean DeleteTable(String id){
         SQLiteDatabase db = getWritableDatabase();
-        db.delete("jadval","id="+id,null);
+        db.delete("Table_Todo","id="+id,null);
         return true;
     }
-    public boolean ozgarrishjadval(String id,String top){
+    public boolean UpdateTable(String id,String top){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("topshiriqlar",top);
-        db.update("jadval",cv,"id="+id,null);
+        cv.put("Todo_task",top);
+        db.update("Table_Todo",cv,"id="+id,null);
         return true;
     }
 }

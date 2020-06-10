@@ -26,6 +26,6 @@ public class norification extends Service {
         super.onStart(intent,startId);
         String title = "title";
         String massage = "massage";
-        new MainActivity().Notify(title,massage);
+        new MainActivity().notify(title,massage);
     }
 }

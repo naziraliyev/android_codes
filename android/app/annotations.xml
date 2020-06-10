@@ -1,0 +1,5 @@
+<root>
+    <item name='android.app.Notification.Builder android.app.Notification getNotification()'>
+        <annotation name='org.jetbrains.annotations.NonBlocking' />
+    </item>
+</root>

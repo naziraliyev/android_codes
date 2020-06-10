@@ -9,16 +9,29 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CustomAdapter extends BaseAdapter implements ListAdapter {
 
-    private  List<Topshiriqlar> list = new ArrayList<>();
+    private  List<Tasks> list;
     private Context context;
     DataBase dataBase;
 
-    public CustomAdapter(List<Topshiriqlar> list, Context context){
+    public CustomAdapter(List<Tasks> list, Context context){
         this.list = list;
         this.context = context;
     }
@@ -45,32 +58,109 @@ public class CustomAdapter extends BaseAdapter implements ListAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.custom,null);
         }
-        TextView listItemtext = view.findViewById(R.id.TextView1);
+
+        TextView listItemtext = view.findViewById(R.id.textview1);
         dataBase = new DataBase(context);
-        listItemtext.setText(list.get(position).getTopshiriq());
+        listItemtext.setText(list.get(position).getTasks());
 
         Button Delete = view.findViewById(R.id.delete);
         Button Edit = view.findViewById(R.id.edit);
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataBase.ochirishjadval(list.get(position).getId());
-                list.remove(position);
-                notifyDataSetChanged();
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api.todoist.com/rest/v1/projects/1234", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONArray jsonArray = null;
+                        try {
+                            jsonArray = new JSONArray(response);
+
+                            for (int i  = 0; i < jsonArray.length(); i++){
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String project = jsonObject.getString("project");
+                                dataBase.DeleteTable(list.get(position).getId());
+                                list.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }}
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                    }
+                })
+                {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("Authorization", "Bearer " + "Zs1ahJjWROqjBMIJGCAmsToOXOEP-wa9x3HiuBEyr6ymUYoyAyhIHeXkS9HE9HfFXcAO");
+
+                        return map;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                requestQueue.add(stringRequest);
 
             }
+
+
+
         });
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String top = MainActivity.topshiriq.getText().toString();
-                if( top.equals("")){
+                final String Edit_task_Data = MainActivity.task_edit.getText().toString();
 
-                }else {
-                dataBase.ozgarrishjadval(list.get(position).getId(),top);
-                list.get(position).setTopshiriq(top);
-                notifyDataSetChanged();
-            }}
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://api.todoist.com/rest/v1/projects/1234", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONArray jsonArray = null;
+                        try {
+                            jsonArray = new JSONArray(response);
+
+                            for (int i  = 0; i < jsonArray.length(); i++){
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String project = jsonObject.getString("project");
+                                dataBase.UpdateTable(list.get(position).getId(),Edit_task_Data);
+                                list.get(position).setTasks(Edit_task_Data);
+                                notifyDataSetChanged();
+                                 }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }}
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                    }
+                })
+                {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("Authorization", "Bearer " + "Zs1ahJjWROqjBMIJGCAmsToOXOEP-wa9x3HiuBEyr6ymUYoyAyhIHeXkS9HE9HfFXcAO");
+
+
+                        return map;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                requestQueue.add(stringRequest);
+
+                }
+
+            private int getCacheDir() {
+                return 0;
+            }
         });
 
         return view;
