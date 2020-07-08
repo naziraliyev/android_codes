@@ -37,7 +37,7 @@ public class DataBase extends SQLiteOpenHelper {
     }
     public Cursor ReadTable(){
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Table",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM Table_Todo",null);
         return cursor;
     }
     public boolean DeleteTable(String id){
@@ -45,10 +45,10 @@ public class DataBase extends SQLiteOpenHelper {
         db.delete("Table_Todo","id="+id,null);
         return true;
     }
-    public boolean UpdateTable(String id,String top){
+    public boolean UpdateTable(String id,String task1){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("Todo_task",top);
+        cv.put("Todo_task",task1);
         db.update("Table_Todo",cv,"id="+id,null);
         return true;
     }
