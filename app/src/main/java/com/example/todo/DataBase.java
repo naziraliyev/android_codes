@@ -21,7 +21,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DataBase) {
-    DataBase.execSQL("CREATE TABLE Table_Todo(id INTEGER PRIMARY KEY AUTOINCREMENT, Todo_task VARCHAR)");
+    DataBase.execSQL("CREATE TABLE Table_Todo(id INTEGER PRIMARY KEY AUTOINCREMENT, task VARCHAR)");
     }
 
     @Override
